@@ -11,7 +11,7 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long userId;
