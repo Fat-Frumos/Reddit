@@ -24,6 +24,6 @@ public class SubReddit {
     private List<Post> posts;
     private Instant createdDate;
     @ManyToOne(fetch = FetchType.LAZY)
-    private Person person;
+    private User user;
 
 }

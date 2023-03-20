@@ -1,7 +1,7 @@
 package com.epam.esm.reddit.service;
 
 import com.epam.esm.reddit.domain.NotificationEmail;
-import com.epam.esm.reddit.domain.Person;
+import com.epam.esm.reddit.domain.User;
 import com.epam.esm.reddit.domain.VerificationToken;
 import com.epam.esm.reddit.dto.AuthenticationResponse;
 import com.epam.esm.reddit.dto.LoginRequest;
@@ -37,25 +37,25 @@ public class AuthService {
 
     @Transactional
     public void signUp(RegisterRequest registerRequest) {
-        Person person = new Person();
-        person.setUsername(registerRequest.getUsername());
-        person.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        person.setEmail(registerRequest.getEmail());
-        person.setCreatedDate(Instant.now());
-        person.setEnabled(false);
-        userRepository.save(person);
+        User user = new User();
+        user.setUsername(registerRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setEmail(registerRequest.getEmail());
+        user.setCreatedDate(Instant.now());
+        user.setEnabled(false);
+        userRepository.save(user);
 
-        String token = generateVerificationToken(person);
-        mailService.sendMail(new NotificationEmail("Please activate your Account", person.getEmail(),
+        String token = generateVerificationToken(user);
+        mailService.sendMail(new NotificationEmail("Please activate your Account", user.getEmail(),
                 "Click on the below url to activate your account : " +
                         "http://localhost:8080/api/auth/accountVerification/" + token));
     }
 
-    private String generateVerificationToken(Person person) {
+    private String generateVerificationToken(User user) {
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setToken(token);
-        verificationToken.setPerson(person);
+        verificationToken.setUser(user);
         verificationTokenRepository.save(verificationToken);
         return token;
     }
@@ -71,8 +71,8 @@ public class AuthService {
 
     @Transactional
     public void fetchUserAndEnable(VerificationToken verificationToken) {
-        String username = verificationToken.getPerson().getUsername();
-        Person user =
+        String username = verificationToken.getUser().getUsername();
+        User user =
                 userRepository.findByUsername(username).orElseThrow(() ->
                         new SpringRedditException("User not found"));
         user.setEnabled(true);
