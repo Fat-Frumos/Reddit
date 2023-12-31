@@ -1,17 +1,16 @@
-FROM quay.io/keycloak/keycloak:latest as builder
-ENV KC_HEALTH_ENABLED=true
-ENV KC_METRICS_ENABLED=true
-ENV KC_DB=postgres
-RUN mkdir -p /opt/keycloak/conf
-RUN keytool -genkeypair -storepass password -storetype PKCS12 -keyalg RSA -keysize 2048 -dname "CN=server" -alias server -ext "SAN:c=DNS:localhost,IP:127.0.0.1" -keystore /opt/keycloak/conf/server.keystore
-RUN /opt/keycloak/bin/kc.sh build
-FROM quay.io/keycloak/keycloak:latest
-COPY --from=builder /opt/keycloak/ /opt/keycloak/
+FROM openjdk:17-jdk
+
+WORKDIR /opt/jboss
+
+RUN apt-get update && apt-get install -y findutils
+
+RUN curl -L https://github.com/keycloak/keycloak/releases/download/23.0.1/keycloak-23.0.1.tar.gz | tar zx
+
+RUN mv /opt/jboss/keycloak-23.0.1 /opt/jboss/keycloak
+
 ENV KEYCLOAK_USER=admin
 ENV KEYCLOAK_PASSWORD=admin
-ENV KC_DB=postgres
-ENV KC_DB_URL=jdbc:postgresql://oregon-postgres.render.com:5432/scenario
-ENV KC_DB_USERNAME=dev
-ENV KC_DB_PASSWORD=PuUQvcwdWJUohyaZmwCOSlLbSiKSpgP9
-ENV KC_HOSTNAME=localhost
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev"]
+
+EXPOSE 8080
+
+CMD ["/opt/jboss/keycloak/bin/kc.sh", "start-dev"]
