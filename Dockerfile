@@ -1,8 +1,11 @@
-FROM openjdk:17-jdk
+FROM debian:bullseye-slim
 
 WORKDIR /opt/jboss
 
-RUN apt-get update && apt-get install -y findutils
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openjdk-17-jdk \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN curl -L https://github.com/keycloak/keycloak/releases/download/23.0.1/keycloak-23.0.1.tar.gz | tar zx
 
