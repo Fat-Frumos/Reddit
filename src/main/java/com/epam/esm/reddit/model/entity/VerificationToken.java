@@ -1,4 +1,4 @@
-package com.epam.esm.reddit.domain;
+package com.epam.esm.reddit.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,5 +19,12 @@ public class VerificationToken {
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
     private Instant expiryDate;
+
+    public VerificationToken(
+            String token,
+            User user) {
+        this.token = token;
+        this.user = user;
+    }
 }
 

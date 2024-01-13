@@ -1,4 +1,4 @@
-package com.epam.esm.reddit.domain;
+package com.epam.esm.reddit.model.entity;
 
 public enum VoteType {
     UPVOTE(1), DOWNVOTE(-1);

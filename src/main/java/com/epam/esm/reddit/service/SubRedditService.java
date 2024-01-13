@@ -1,7 +1,7 @@
 package com.epam.esm.reddit.service;
 
-import com.epam.esm.reddit.domain.SubReddit;
-import com.epam.esm.reddit.dto.SubRedditDto;
+import com.epam.esm.reddit.model.entity.SubReddit;
+import com.epam.esm.reddit.model.dto.SubRedditDto;
 import com.epam.esm.reddit.repository.SubRedditRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

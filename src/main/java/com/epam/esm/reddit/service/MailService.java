@@ -1,6 +1,6 @@
 package com.epam.esm.reddit.service;
 
-import com.epam.esm.reddit.domain.NotificationEmail;
+import com.epam.esm.reddit.model.entity.NotificationEmail;
 import com.epam.esm.reddit.exception.SpringRedditException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.epam.esm.reddit.service;
 
-import com.epam.esm.reddit.domain.User;
+import com.epam.esm.reddit.model.entity.User;
 import com.epam.esm.reddit.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

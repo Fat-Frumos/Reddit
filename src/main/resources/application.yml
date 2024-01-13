@@ -1,0 +1,52 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://oregon-postgres.render.com:5432/scenario
+    username: dev
+    password: PuUQvcwdWJUohyaZmwCOSlLbSiKSpgP9
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  mail:
+    host: smtp.mailtrap.io
+    port: 25
+    username: 52871dca087659
+    password: 69ba3f45b868cd
+    protocol: smtp
+
+jwt:
+  private:
+    key: classpath:app.key
+  public:
+    key: classpath:app.pub
+  expiration:
+    time: 300000
+
+server:
+  port: 8080
+  ssl:
+    enabled: true
+    key-store: classpath:bootsecurity.p12
+    key-store-password: bootsecurity
+    keyStoreType: PKCS12
+    keyAlias: bootsecurity
+
+  tomcat:
+    accesslog:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
+  metrics:
+    tags:
+      application: reddit

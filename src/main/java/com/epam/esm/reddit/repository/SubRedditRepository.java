@@ -1,6 +1,6 @@
 package com.epam.esm.reddit.repository;
 
-import com.epam.esm.reddit.domain.SubReddit;
+import com.epam.esm.reddit.model.entity.SubReddit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

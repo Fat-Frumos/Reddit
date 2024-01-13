@@ -1,4 +1,4 @@
-package com.epam.esm.reddit.domain;
+package com.epam.esm.reddit.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,14 +1,11 @@
 package com.epam.esm.reddit.security;
 
-import com.epam.esm.reddit.domain.User;
 import com.epam.esm.reddit.exception.SpringRedditException;
+import com.epam.esm.reddit.model.entity.User;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.nimbusds.jose.shaded.gson.JsonParser;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -24,8 +21,12 @@ import java.time.Instant;
 import java.util.Base64;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JWTProvider {
+
+    @Value(value = "${jwt.expiration.time}")
+    private String expiration;
+
     private final JwtEncoder jwtEncoder;
 
     public String generateToken(Authentication authentication) {
@@ -75,6 +76,6 @@ public class JWTProvider {
     }
 
     public Long getJwtExpirationInMillis() {
-        return 300000L;
+        return Long.valueOf(expiration);
     }
 }

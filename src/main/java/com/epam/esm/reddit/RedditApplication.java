@@ -1,6 +1,9 @@
 package com.epam.esm.reddit;
 
 import com.epam.esm.reddit.config.SecurityConfig;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.binder.MeterBinder;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -23,28 +26,47 @@ public class RedditApplication {
     }
 
     @Bean
-    public ServletWebServerFactory serverContainer() {
-        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
-            @Override
-            protected void postProcessContext(Context context) {
-                SecurityConstraint securityConstraint = new SecurityConstraint();
-                securityConstraint.setUserConstraint("CONFIDENTIAL");
-                SecurityCollection collection = new SecurityCollection();
-                collection.addPattern("/*");
-                securityConstraint.addCollection(collection);
-                context.addConstraint(securityConstraint);
-            }
+    MeterBinder meterBinder() {
+        return meterRegistry -> {
+            Counter.builder("counter")
+                   .description("post")
+                   .register(meterRegistry);
+
+            Counter.builder("counter_tag")
+                   .description("post by name")
+                   .tag("name", "user")
+                   .register(meterRegistry);
+            Gauge.builder("", () -> 10);
         };
-        tomcat.addAdditionalTomcatConnectors(httpToHttpsRedirectConnector());
-        return tomcat;
     }
 
-    private Connector httpToHttpsRedirectConnector() {
-        Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
-        connector.setScheme("http");
-        connector.setPort(8080);
-        connector.setSecure(false);
-        connector.setRedirectPort(8443);
-        return connector;
-    }
+//    @Bean
+//    public ServletWebServerFactory serverContainer() {
+//        TomcatServletWebServerFactory tomcat =
+//                new TomcatServletWebServerFactory() {
+//                    @Override
+//                    protected void postProcessContext(Context context) {
+//                        SecurityConstraint securityConstraint =
+//                                new SecurityConstraint();
+//                        securityConstraint.setUserConstraint("CONFIDENTIAL");
+//                        SecurityCollection collection =
+//                                new SecurityCollection();
+//                        collection.addPattern("/*");
+//                        securityConstraint.addCollection(collection);
+//                        context.addConstraint(securityConstraint);
+//                    }
+//                };
+//        tomcat.addAdditionalTomcatConnectors(httpToHttpsRedirectConnector());
+//        return tomcat;
+//    }
+
+//    private Connector httpToHttpsRedirectConnector() {
+//        Connector connector =
+//                new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+//        connector.setScheme("http");
+//        connector.setPort(8080);
+//        connector.setSecure(false);
+//        connector.setRedirectPort(8443);
+//        return connector;
+//    }
 }

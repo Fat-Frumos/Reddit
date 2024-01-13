@@ -1,4 +1,4 @@
-package com.epam.esm.reddit.domain;
+package com.epam.esm.reddit.model.entity;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "person")
@@ -33,16 +34,14 @@ public class User {
     private Role roles;
 
     public List<String> getRoleList(){
-        if(this.roles.name().length() > 0){
-            return Arrays.asList(this.roles.name().split(","));
-        }
-        return new ArrayList<>();
+        return !this.roles.name().isEmpty()
+               ? Arrays.asList(this.roles.name().split(","))
+               : new ArrayList<>();
     }
 
     public List<String> getPermissionList(){
-        if(this.permissions.length() > 0){
-            return Arrays.asList(this.permissions.split(","));
-        }
-        return new ArrayList<>();
+        return !this.permissions.isEmpty()
+               ? Arrays.asList(this.permissions.split(","))
+               : new ArrayList<>();
     }
 }

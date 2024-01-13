@@ -1,6 +1,6 @@
 package com.epam.esm.reddit.security;
 
-import com.epam.esm.reddit.domain.User;
+import com.epam.esm.reddit.model.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
