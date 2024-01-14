@@ -8,11 +8,11 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     hibernate:
       ddl-auto: update
     show-sql: true
+    open-in-view: false
 
   mail:
     host: smtp.mailtrap.io
@@ -27,20 +27,16 @@ jwt:
   public:
     key: classpath:app.pub
   expiration:
-    time: 300000
+    time: 600000
 
 server:
   port: 8080
   ssl:
     enabled: true
-    key-store: classpath:bootsecurity.p12
-    key-store-password: bootsecurity
     keyStoreType: PKCS12
     keyAlias: bootsecurity
-
-  tomcat:
-    accesslog:
-      enabled: true
+    key-store-password: bootsecurity
+    key-store: classpath:bootsecurity.p12
 
 management:
   endpoints:
@@ -50,3 +46,13 @@ management:
   metrics:
     tags:
       application: reddit
+
+logging:
+  level:
+    org:
+      springframework:
+      - DEBUG
+      security:
+      - DEBUG
+    root:
+      - DEBUG
