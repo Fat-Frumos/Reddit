@@ -23,7 +23,7 @@ public class MailService {
     public void sendMail(NotificationEmail notificationEmail) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-            mimeMessageHelper.setFrom("fghjkl11@gmail.com");
+            mimeMessageHelper.setFrom("qwerty@gmail.com");
             mimeMessageHelper.setTo(notificationEmail.getRecipient());
             mimeMessageHelper.setSubject(notificationEmail.getSubject());
             mimeMessageHelper.setText(mailContentBuilder.build(notificationEmail.getBody()));

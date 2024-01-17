@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 @Entity
@@ -23,7 +24,7 @@ import java.time.Instant;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+public class Post implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long postId;
@@ -33,12 +34,12 @@ public class Post {
     private String url;
     @Lob
     private String description;
-    private Integer voteCount;
-    @ManyToOne(fetch = FetchType.LAZY)
+    private Integer voteCount = 0;
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
     private Instant createdDate;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private SubReddit subreddit;
 }

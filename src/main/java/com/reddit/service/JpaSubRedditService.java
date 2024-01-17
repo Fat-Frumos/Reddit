@@ -1,9 +1,12 @@
 package com.reddit.service;
 
+import com.reddit.exception.SpringRedditException;
 import com.reddit.model.dto.SubRedditResponse;
+import com.reddit.model.entity.SubReddit;
 import com.reddit.repository.SubRedditRepository;
 import com.reddit.service.mapper.SubRedditMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,5 +37,14 @@ public class JpaSubRedditService implements SubRedditService {
                 .stream()
                 .map(mapper::toDto)
                 .toList());
+    }
+
+    @Override
+    public ResponseEntity<SubRedditResponse> getById(Long id) {
+        SubReddit subReddit = repository
+                .findById(id)
+                .orElseThrow(() -> new SpringRedditException("Sub Reddit by Id not found"));
+        return ResponseEntity.status(HttpStatus.OK)
+                    .body(mapper.toDto(subReddit));
     }
 }

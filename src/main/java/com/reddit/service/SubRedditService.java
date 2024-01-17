@@ -9,4 +9,6 @@ public interface SubRedditService {
     ResponseEntity<SubRedditResponse> save(SubRedditResponse response);
 
     ResponseEntity<List<SubRedditResponse>> getAll();
+
+    ResponseEntity<SubRedditResponse> getById(Long id);
 }

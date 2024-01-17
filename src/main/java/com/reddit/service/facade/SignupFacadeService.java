@@ -42,8 +42,7 @@ public class SignupFacadeService implements SignupService {
     public String createVerificationToken(User user) {
         String token = UUID.randomUUID().toString();
         VerificationToken verification = new VerificationToken(token, user);
-        repository.saveToken(verification);
-        return token;
+        return repository.saveToken(verification).getToken();
     }
 
     @NonNull

@@ -3,6 +3,7 @@ package com.reddit.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 @Entity
@@ -10,7 +11,7 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class Comment {
+public class Comment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +19,6 @@ public class Comment {
     @NonNull
     private String text;
     private Instant createdDate;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId", referencedColumnName = "postId")
     private Post post;

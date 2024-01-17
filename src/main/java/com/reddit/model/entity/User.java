@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +31,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "person")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -45,11 +46,11 @@ public class User {
     private String permissions;
     private boolean enabled;
     @Enumerated(EnumType.STRING)
-    private Role roles;
+    private Role role;
 
     public List<String> getRoleList(){
-        return this.roles != null && !this.roles.name().isEmpty()
-               ? Arrays.asList(this.roles.name().split(","))
+        return this.role != null && !this.role.name().isEmpty()
+               ? Arrays.asList(this.role.name().split(","))
                : new ArrayList<>();
     }
 

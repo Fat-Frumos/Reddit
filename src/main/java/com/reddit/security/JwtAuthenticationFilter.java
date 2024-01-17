@@ -1,13 +1,14 @@
 package com.reddit.security;
 
-import com.reddit.exception.SpringRedditException;
 import com.nimbusds.jose.shaded.gson.JsonParser;
+import com.reddit.exception.SpringRedditException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,15 +21,30 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.Signature;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.util.Base64;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    @Value("${server.ssl.key-store-type}")
+    private String keyStoreType;
+
+    @Value("${server.ssl.key-alias}")
+    private String keyAlias;
+
+    @Value("${server.ssl.key-store-password}")
+    private String keyStorePassword;
+
+    @Value("${server.ssl.key-store}")
+    private String keyStorePath;
 
     private final UserDetailsService userDetailsService;
 
@@ -51,25 +67,33 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     public boolean validateToken(String jwt) {
+        if (jwt == null || jwt.isEmpty()) {
+            throw new SpringRedditException("JWT token is null or empty");
+        }
+
         try {
             String[] parts = jwt.split("\\.");
             Signature signature = Signature.getInstance("SHA256withRSA");
             signature.initVerify(getPublicKey());
-            signature.update((parts[0] + "." + parts[1]).getBytes(
-                    UTF_8));
+            signature.update((parts[0] + "." + parts[1]).getBytes(UTF_8));
             return signature.verify(Base64.getUrlDecoder().decode(parts[2]));
         } catch (Exception e) {
-            throw new SpringRedditException("Exception", e);
+            throw new SpringRedditException("invalidate Token");
         }
     }
 
     private PublicKey getPublicKey() {
         try {
-            return KeyStore.getInstance("RS256")
-                           .getCertificate("")
-                           .getPublicKey();
-        } catch (KeyStoreException e) {
-            throw new SpringRedditException("Exception", e);
+            KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+            keyStore.load(getClass().getResourceAsStream("/bootsecurity.p12"), keyStorePassword.toCharArray());
+            Certificate certificate = keyStore.getCertificate(keyAlias);
+            if (certificate == null) {
+                throw new SpringRedditException("Certificate not found for alias: " + keyAlias);
+            }
+
+            return certificate.getPublicKey();
+        } catch (KeyStoreException | CertificateException | IOException | NoSuchAlgorithmException e) {
+            throw new SpringRedditException("invalid PublicKey");
         }
     }
 
