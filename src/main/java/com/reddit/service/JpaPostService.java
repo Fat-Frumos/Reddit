@@ -24,21 +24,21 @@ public class JpaPostService
 
     private final PostMapper mapper;
     private final AuthService service;
-    private final FacadeRepositoryService repository;
+    private final FacadeRepositoryService facade;
 
     @Override
     @Transactional
     public ResponseEntity<PostResponse> save(PostRequest request) {
-        SubReddit subReddit = repository.findSubRedditByName(request.getSubredditName());
+        SubReddit subReddit = facade.findSubRedditByName(request.getSubredditName());
         User user = service.getCurrentUser();
-        Post savedPost = repository.savePost(mapper.toEntity(request, subReddit, user));
+        Post savedPost = facade.savePost(mapper.toEntity(request, subReddit, user));
         return ResponseEntity.ok(mapper.toDto(savedPost));
     }
 
     @Override
     @Transactional(readOnly = true)
     public ResponseEntity<List<PostResponse>> getAllPosts() {
-        List<PostResponse> posts = repository
+        List<PostResponse> posts = facade
                 .findAllPosts()
                 .stream()
                 .map(mapper::toDto)
@@ -50,14 +50,14 @@ public class JpaPostService
     @Transactional(readOnly = true)
     public ResponseEntity<PostResponse> getPostById(Long id) {
         return ResponseEntity.ok(mapper.toDto(
-                repository.findPostById(id)));
+                facade.findPostById(id)));
     }
 
     @Override
     @Transactional(readOnly = true)
     public ResponseEntity<List<PostResponse>> getPostsBySubReddit(Long id) {
-        SubReddit subReddit = repository.findSubRedditById(id);
-        List<PostResponse> posts = repository
+        SubReddit subReddit = facade.findSubRedditById(id);
+        List<PostResponse> posts = facade
                 .findAllPostsBySubreddit(subReddit)
                 .stream()
                 .map(mapper::toDto)
@@ -68,8 +68,8 @@ public class JpaPostService
     @Override
     @Transactional(readOnly = true)
     public ResponseEntity<List<PostResponse>> getPostsByUsername(String name) {
-        User user = repository.findByUsername(name);
-        List<PostResponse> posts = repository
+        User user = facade.findByUsername(name);
+        List<PostResponse> posts = facade
                 .findPostsByUser(user)
                 .stream()
                 .map(mapper::toDto)

@@ -1,11 +1,10 @@
-package com.reddit.service.mapper;
+package com.reddit.service;
 
 import com.reddit.exception.DuplicateVoteException;
 import com.reddit.model.dto.VoteResponse;
 import com.reddit.model.entity.Post;
 import com.reddit.model.entity.Vote;
 import com.reddit.repository.VoteRepository;
-import com.reddit.service.VoteService;
 import com.reddit.service.facade.FacadeRepositoryService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

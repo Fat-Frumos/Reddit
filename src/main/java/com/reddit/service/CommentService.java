@@ -12,4 +12,6 @@ public interface CommentService {
     ResponseEntity<List<CommentResponse>> getAllCommentsForUser(String name);
 
     ResponseEntity<List<CommentResponse>> getCommentsForPost(Long id);
+
+    boolean containsSwearWords(String word);
 }

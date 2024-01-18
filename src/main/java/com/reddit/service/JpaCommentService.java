@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +25,7 @@ public class JpaCommentService implements CommentService {
     private final MailContentBuilder mailContentBuilder;
     private final MailService mailService;
 
+    private static final List<String> swearWords = new ArrayList<>();
 
     @Override
     public ResponseEntity<Comment> save(CommentResponse dto) {
@@ -54,5 +56,10 @@ public class JpaCommentService implements CommentService {
         return ResponseEntity.ok().body(
                 commentRepository.findByPost(
                         facade.findPostById(id)).stream().map(mapper::toDto).toList());
+    }
+
+    @Override
+    public boolean containsSwearWords(String isSwearWords) {
+        return swearWords.stream().anyMatch(isSwearWords::contains);
     }
 }

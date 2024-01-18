@@ -22,7 +22,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JwtRefreshTokenService
         implements RefreshTokenService {
-    private KeyStore keyStore;
     private static final String SECRET = "bootsecurity";
 
     private final RefreshTokenRepository refreshTokenRepository;
@@ -31,8 +30,9 @@ public class JwtRefreshTokenService
     @PostConstruct
     public void  init(){
         try {
-            keyStore = KeyStore.getInstance("PKCS12");
-            keyStore.load(getClass().getResourceAsStream("/bootsecurity.p12"), SECRET.toCharArray());
+            KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            keyStore.load(getClass().getResourceAsStream(
+                    "/bootsecurity.p12"), SECRET.toCharArray());
         } catch (Exception e) {
             throw new SpringRedditException("PostConstruct failed");
         }
