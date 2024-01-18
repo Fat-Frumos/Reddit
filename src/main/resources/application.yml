@@ -32,7 +32,7 @@ jwt:
 server:
   port: 8080
   ssl:
-    enabled: true
+    enabled: false
     keyStoreType: PKCS12
     keyAlias: bootsecurity
     key-store-password: bootsecurity
@@ -49,10 +49,6 @@ management:
 
 logging:
   level:
-    org:
-      springframework:
-      - DEBUG
-      security:
-      - DEBUG
-    root:
-      - DEBUG
+    org.springframework: DEBUG
+    org.springframework.security: DEBUG
+    root: DEBUG

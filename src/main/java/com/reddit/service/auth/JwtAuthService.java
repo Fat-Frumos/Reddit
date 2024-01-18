@@ -29,7 +29,7 @@ public class JwtAuthService
     @Override
     public AuthenticationResponse login(
             LoginRequest loginRequest) {
-        return loginService.login(loginRequest);
+        return loginService.loginRequest(loginRequest);
     }
 
     @Override

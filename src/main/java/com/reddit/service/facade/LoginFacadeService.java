@@ -23,7 +23,7 @@ public class LoginFacadeService
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public AuthenticationResponse login(LoginRequest request) {
+    public AuthenticationResponse loginRequest(LoginRequest request) {
         Authentication authenticate = getAuthenticate(request);
         String token = generateToken(authenticate);
         return AuthenticationResponse.builder()

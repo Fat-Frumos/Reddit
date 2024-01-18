@@ -26,15 +26,23 @@ public class SignupFacadeService implements SignupService {
 
     @Override
     @Transactional
-    public ResponseEntity<String> signup(RegisterRequest request) {
+    public ResponseEntity<String> signup(
+            RegisterRequest request) {
         User user = getUserFromRequest(request);
+        if (repository.checkUserByName(
+                user.getUsername()).isPresent()) {
+            return new ResponseEntity<>(
+                    "User with this username already exists",
+                    HttpStatus.BAD_REQUEST);
+        }
+
         repository.saveUser(user);
         String token = createVerificationToken(user);
         mailService.sendMail(new NotificationEmail(
                 "Please activate your Account",
                 user.getEmail(),
                 "Click on the below url to activate your account : "
-                        + "http://localhost:8080/api/auth/accountVerification/" + token));
+                        + "https://localhost:8080/api/auth/accountVerification/" + token));
         return new ResponseEntity<>("User successfully registered", HttpStatus.OK);
     }
 

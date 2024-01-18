@@ -19,7 +19,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @EnableAsync
 @SpringBootApplication
-@Import({SecurityConfig.class, SwaggerConfig.class})
+@Import({SecurityConfig.class})
 public class RedditApplication {
 
     public static void main(String[] args) {

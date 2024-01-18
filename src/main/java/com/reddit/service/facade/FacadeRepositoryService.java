@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -96,5 +97,9 @@ public class FacadeRepositoryService {
                 .getAuthentication()
                 .getPrincipal();
         return findByUsername(principal.getSubject());
+    }
+
+    public Optional<User> checkUserByName(String username) {
+        return userRepository.findByUsername(username);
     }
 }

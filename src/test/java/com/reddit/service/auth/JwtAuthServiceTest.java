@@ -48,7 +48,7 @@ class JwtAuthServiceTest {
     void testLogin() {
         LoginRequest loginRequest = new LoginRequest();
         AuthenticationResponse response = new AuthenticationResponse();
-        when(loginService.login(loginRequest)).thenReturn(response);
+        when(loginService.loginRequest(loginRequest)).thenReturn(response);
         assertEquals(response, jwtAuthService.login(loginRequest));
     }
 
