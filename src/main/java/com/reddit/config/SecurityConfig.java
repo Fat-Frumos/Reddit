@@ -55,26 +55,24 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/auth/**")
-                        .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/subreddit")
-                        .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/posts/")
-                        .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/posts/**")
-                        .permitAll()
-                        .requestMatchers("/v2/api-docs",
+                        .requestMatchers("/api/auth/**",  "/actuator/**",
+                                         "swagger-ui/**","/swagger-ui.html",
+                                         "/v3/api-docs/swagger-config",
+                                         "/swagger-ui/index.html").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/subreddit").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+                        .requestMatchers("/v3/api-docs",
                                          "/configuration/ui",
                                          "/swagger-resources/**",
                                          "/configuration/security",
-                                         "/swagger-ui.html",
+                                         "/configuration/ui",
                                          "/webjars/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
                 .oauth2ResourceServer(configurer -> configurer.jwt(jwt -> jwt.decoder(jwtDecoder())))
-                .sessionManagement(session -> session.sessionCreationPolicy(
-                        SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                         .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))

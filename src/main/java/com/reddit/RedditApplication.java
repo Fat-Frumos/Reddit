@@ -1,6 +1,7 @@
 package com.reddit;
 
 import com.reddit.config.SecurityConfig;
+import com.reddit.config.SwaggerConfig;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.binder.MeterBinder;
@@ -16,9 +17,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-@SpringBootApplication
-@Import(SecurityConfig.class)
 @EnableAsync
+@SpringBootApplication
+@Import({SecurityConfig.class, SwaggerConfig.class})
 public class RedditApplication {
 
     public static void main(String[] args) {
