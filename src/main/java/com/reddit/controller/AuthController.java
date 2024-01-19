@@ -8,6 +8,7 @@ import com.reddit.service.auth.JwtAuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.HttpStatus.OK;
 
+@Validated
 @CrossOrigin
 @RestController
 @AllArgsConstructor
@@ -54,6 +56,6 @@ public class AuthController {
     public ResponseEntity<String> logoutUser(
             @Valid @RequestBody RefreshTokenRequest request) {
         authService.deleteToken(request.getRefreshToken());
-        return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
+        return ResponseEntity.status(OK).body("Token Deleted Successfully!!");
     }
 }

@@ -1,9 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../shared/auth.service';
-import {ToastrService} from 'ngx-toastr';
-import {Router} from '@angular/router';
-import {SignupRequestPayload} from './singup-request.payload';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../service/auth.service';
+import { SignupRequestPayload } from './singup-request.payload';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +16,6 @@ import {SignupRequestPayload} from './singup-request.payload';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-
   signupRequestPayload: SignupRequestPayload;
 
   signupForm: FormGroup;
@@ -20,7 +24,8 @@ export class SignupComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private toast: ToastrService) {
+    private toast: ToastrService
+  ) {
     this.signupRequestPayload = {
       username: '',
       email: '',
@@ -51,13 +56,14 @@ export class SignupComponent implements OnInit {
       this.signupRequestPayload.username = usernameControl.value || '';
       this.signupRequestPayload.password = passwordControl.value || '';
 
-      this.authService.signup(this.signupRequestPayload)
-      .subscribe({
-        next: data => {
+      this.authService.signup(this.signupRequestPayload).subscribe({
+        next: (data) => {
           console.log(data);
-          void this.router.navigate(['/login'], { queryParams: { registered: 'true' } });
+          this.router.navigate(['/login'], {
+            queryParams: { registered: 'true' }
+          });
         },
-        error: error => {
+        error: (error) => {
           console.log(error);
           this.toast.error('Registration Failed! Please try again');
         }

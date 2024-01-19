@@ -27,7 +27,7 @@ jwt:
   public:
     key: classpath:app.pub
   expiration:
-    time: 6000000
+    time: 60000000
 
 server:
   port: 8080

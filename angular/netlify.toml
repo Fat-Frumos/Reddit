@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build]
+  base = "angular"
+  command = "ng build"
+  publish = "dist/angular-reddit/browser"

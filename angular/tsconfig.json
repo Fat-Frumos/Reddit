@@ -1,17 +1,42 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
+  "files": [
+    "src/polyfills.ts",
+    "src/test.ts"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/test.ts",
+    "src/polyfills.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".eslintrc.js"
+  ],
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
+    "types": [
+      "jasmine"
+    ],
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "rootDir": "./",
+    "paths": {
+      "@app/*": [
+        "app/*"
+      ]
+    },
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "strictPropertyInitialization": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
     "sourceMap": true,
     "declaration": false,
+    "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,

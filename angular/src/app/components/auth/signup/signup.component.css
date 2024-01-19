@@ -5,15 +5,13 @@
   margin-bottom: 10px;
 }
 
-.card-header{
+.card-header {
   background-color: #0a53be;
   color: #ffffff;
 }
 
-.sign-up{
-  border-color: #0079D3;
-  color: #0079D3;
-  fill: #0079D3;
+.sign-up {
+  border-color: #0079d3;
   border: 1px solid;
   border-radius: 4px;
   box-sizing: border-box;
